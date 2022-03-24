@@ -1,0 +1,19 @@
+name: Update issue comment, trigger build on TCSP website
+
+on:
+  workflow_dispatch:
+  push:
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.PAT }}
+          script: |
+            github.rest.issues.updateComment({
+              owner: 'ieee-security',
+              repo: '${{ secrets.REPO }}',
+              comment_id: '${{ secrets.COMMENT_ID }}',
+              body: '${{ github.sha }}'
+            })
